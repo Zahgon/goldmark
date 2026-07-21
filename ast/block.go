@@ -1,622 +1,263 @@
 package ast
 
 import (
-	"fmt"
-	"strings"
-
 	textm "github.com/yuin/goldmark/text"
 )
 
-// A BaseBlock struct implements the Node interface partialliy.
 type BaseBlock struct {
 	BaseNode
 	lines              textm.Segments
 	blankPreviousLines bool
 }
 
-// Type implements Node.Type.
-func (b *BaseBlock) Type() NodeType {
-	return TypeBlock
-}
+func (b *BaseBlock) Type() NodeType { _ = "STUB: not implemented"; return *new(NodeType) }
 
-// IsRaw implements Node.IsRaw.
-func (b *BaseBlock) IsRaw() bool {
-	return false
-}
+func (b *BaseBlock) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// HasBlankPreviousLines implements Node.HasBlankPreviousLines.
-func (b *BaseBlock) HasBlankPreviousLines() bool {
-	return b.blankPreviousLines
-}
+func (b *BaseBlock) HasBlankPreviousLines() bool { _ = "STUB: not implemented"; return false }
 
-// SetBlankPreviousLines implements Node.SetBlankPreviousLines.
-func (b *BaseBlock) SetBlankPreviousLines(v bool) {
-	b.blankPreviousLines = v
-}
+func (b *BaseBlock) SetBlankPreviousLines(v bool) { _ = "STUB: not implemented"; return }
 
-// Lines implements Node.Lines.
-func (b *BaseBlock) Lines() *textm.Segments {
-	return &b.lines
-}
+func (b *BaseBlock) Lines() *textm.Segments { _ = "STUB: not implemented"; return nil }
 
-// SetLines implements Node.SetLines.
-func (b *BaseBlock) SetLines(v *textm.Segments) {
-	b.lines = *v
-}
+func (b *BaseBlock) SetLines(v *textm.Segments) { _ = "STUB: not implemented"; return }
 
-// A Document struct is a root node of Markdown text.
 type Document struct {
 	BaseBlock
 
 	meta map[string]any
 }
 
-// KindDocument is a NodeKind of the Document node.
 var KindDocument = NewNodeKind("Document")
 
-// Dump implements Node.Dump .
-func (n *Document) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *Document) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// Type implements Node.Type .
-func (n *Document) Type() NodeType {
-	return TypeDocument
-}
+func (n *Document) Type() NodeType { _ = "STUB: not implemented"; return *new(NodeType) }
 
-// Pos implements Node.Pos.
-func (n *Document) Pos() int {
-	return 0
-}
+func (n *Document) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// Kind implements Node.Kind.
-func (n *Document) Kind() NodeKind {
-	return KindDocument
-}
+func (n *Document) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// OwnerDocument implements Node.OwnerDocument.
-func (n *Document) OwnerDocument() *Document {
-	return n
-}
+func (n *Document) OwnerDocument() *Document { _ = "STUB: not implemented"; return nil }
 
-// Meta returns metadata of this document.
-func (n *Document) Meta() map[string]any {
-	if n.meta == nil {
-		n.meta = map[string]any{}
-	}
-	return n.meta
-}
+func (n *Document) Meta() map[string]any { _ = "STUB: not implemented"; return nil }
 
-// SetMeta sets given metadata to this document.
-func (n *Document) SetMeta(meta map[string]any) {
-	if n.meta == nil {
-		n.meta = map[string]any{}
-	}
-	for k, v := range meta {
-		n.meta[k] = v
-	}
-}
+func (n *Document) SetMeta(meta map[string]any) { _ = "STUB: not implemented"; return }
 
-// AddMeta adds given metadata to this document.
-func (n *Document) AddMeta(key string, value any) {
-	if n.meta == nil {
-		n.meta = map[string]any{}
-	}
-	n.meta[key] = value
-}
+func (n *Document) AddMeta(key string, value any) { _ = "STUB: not implemented"; return }
 
-// NewDocument returns a new Document node.
-func NewDocument() *Document {
-	return &Document{
-		BaseBlock: BaseBlock{},
-		meta:      nil,
-	}
-}
+func NewDocument() *Document { _ = "STUB: not implemented"; return nil }
 
-// A TextBlock struct is a node whose lines
-// should be rendered without any containers.
 type TextBlock struct {
 	BaseBlock
 }
 
-// Dump implements Node.Dump .
-func (n *TextBlock) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *TextBlock) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// Pos implements Node.Pos.
-func (n *TextBlock) Pos() int {
-	if n.lines.Len() == 0 {
-		return -1
-	}
-	return n.lines.At(0).Start
-}
+func (n *TextBlock) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// KindTextBlock is a NodeKind of the TextBlock node.
 var KindTextBlock = NewNodeKind("TextBlock")
 
-// Kind implements Node.Kind.
-func (n *TextBlock) Kind() NodeKind {
-	return KindTextBlock
-}
+func (n *TextBlock) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. TextBlock.Lines).
-func (n *TextBlock) Text(source []byte) []byte {
-	return n.Lines().Value(source)
-}
+func (n *TextBlock) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewTextBlock returns a new TextBlock node.
-func NewTextBlock() *TextBlock {
-	return &TextBlock{
-		BaseBlock: BaseBlock{},
-	}
-}
+func NewTextBlock() *TextBlock { _ = "STUB: not implemented"; return nil }
 
-// A Paragraph struct represents a paragraph of Markdown text.
 type Paragraph struct {
 	BaseBlock
 }
 
-// Dump implements Node.Dump .
-func (n *Paragraph) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *Paragraph) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// Pos implements Node.Pos.
-func (n *Paragraph) Pos() int {
-	if n.lines.Len() == 0 {
-		return -1
-	}
-	return n.lines.At(0).Start
-}
+func (n *Paragraph) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// KindParagraph is a NodeKind of the Paragraph node.
 var KindParagraph = NewNodeKind("Paragraph")
 
-// Kind implements Node.Kind.
-func (n *Paragraph) Kind() NodeKind {
-	return KindParagraph
-}
+func (n *Paragraph) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. Paragraph.Lines).
-func (n *Paragraph) Text(source []byte) []byte {
-	return n.Lines().Value(source)
-}
+func (n *Paragraph) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewParagraph returns a new Paragraph node.
-func NewParagraph() *Paragraph {
-	return &Paragraph{
-		BaseBlock: BaseBlock{},
-	}
-}
+func NewParagraph() *Paragraph { _ = "STUB: not implemented"; return nil }
 
-// IsParagraph returns true if the given node implements the Paragraph interface,
-// otherwise false.
-func IsParagraph(node Node) bool {
-	_, ok := node.(*Paragraph)
-	return ok
-}
+func IsParagraph(node Node) bool { _ = "STUB: not implemented"; return false }
 
-// A Heading struct represents headings like SetextHeading and ATXHeading.
 type Heading struct {
 	BaseBlock
-	// Level returns a level of this heading.
-	// This value is between 1 and 6.
+
 	Level int
 }
 
-// Dump implements Node.Dump .
-func (n *Heading) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Level": fmt.Sprintf("%d", n.Level),
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *Heading) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindHeading is a NodeKind of the Heading node.
 var KindHeading = NewNodeKind("Heading")
 
-// Kind implements Node.Kind.
-func (n *Heading) Kind() NodeKind {
-	return KindHeading
-}
+func (n *Heading) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewHeading returns a new Heading node.
-func NewHeading(level int) *Heading {
-	return &Heading{
-		BaseBlock: BaseBlock{},
-		Level:     level,
-	}
-}
+func NewHeading(level int) *Heading { _ = "STUB: not implemented"; return nil }
 
-// A ThematicBreak struct represents a thematic break of Markdown text.
 type ThematicBreak struct {
 	BaseBlock
 }
 
-// Dump implements Node.Dump .
-func (n *ThematicBreak) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *ThematicBreak) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindThematicBreak is a NodeKind of the ThematicBreak node.
 var KindThematicBreak = NewNodeKind("ThematicBreak")
 
-// Kind implements Node.Kind.
-func (n *ThematicBreak) Kind() NodeKind {
-	return KindThematicBreak
-}
+func (n *ThematicBreak) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewThematicBreak returns a new ThematicBreak node.
-func NewThematicBreak() *ThematicBreak {
-	return &ThematicBreak{
-		BaseBlock: BaseBlock{},
-	}
-}
+func NewThematicBreak() *ThematicBreak { _ = "STUB: not implemented"; return nil }
 
-// A CodeBlock interface represents an indented code block of Markdown text.
 type CodeBlock struct {
 	BaseBlock
 }
 
-// IsRaw implements Node.IsRaw.
-func (n *CodeBlock) IsRaw() bool {
-	return true
-}
+func (n *CodeBlock) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// Dump implements Node.Dump .
-func (n *CodeBlock) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *CodeBlock) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindCodeBlock is a NodeKind of the CodeBlock node.
 var KindCodeBlock = NewNodeKind("CodeBlock")
 
-// Kind implements Node.Kind.
-func (n *CodeBlock) Kind() NodeKind {
-	return KindCodeBlock
-}
+func (n *CodeBlock) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. CodeBlock.Lines).
-func (n *CodeBlock) Text(source []byte) []byte {
-	return n.Lines().Value(source)
-}
+func (n *CodeBlock) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewCodeBlock returns a new CodeBlock node.
-func NewCodeBlock() *CodeBlock {
-	return &CodeBlock{
-		BaseBlock: BaseBlock{},
-	}
-}
+func NewCodeBlock() *CodeBlock { _ = "STUB: not implemented"; return nil }
 
-// A FencedCodeBlock struct represents a fenced code block of Markdown text.
 type FencedCodeBlock struct {
 	BaseBlock
-	// Info returns a info text of this fenced code block.
+
 	Info *Text
 
 	language []byte
 }
 
-// Language returns an language in an info string.
-// Language returns nil if this node does not have an info string.
-func (n *FencedCodeBlock) Language(source []byte) []byte {
-	if n.language == nil && n.Info != nil {
-		segment := n.Info.Segment
-		info := segment.Value(source)
-		i := 0
-		for ; i < len(info); i++ {
-			if info[i] == ' ' {
-				break
-			}
-		}
-		n.language = info[:i]
-	}
-	return n.language
-}
+func (n *FencedCodeBlock) Language(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// IsRaw implements Node.IsRaw.
-func (n *FencedCodeBlock) IsRaw() bool {
-	return true
-}
+func (n *FencedCodeBlock) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// Dump implements Node.Dump .
-func (n *FencedCodeBlock) Dump(source []byte, level int) {
-	m := map[string]string{}
-	if n.Info != nil {
-		m["Info"] = fmt.Sprintf("\"%s\"", n.Info.Text(source))
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *FencedCodeBlock) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindFencedCodeBlock is a NodeKind of the FencedCodeBlock node.
 var KindFencedCodeBlock = NewNodeKind("FencedCodeBlock")
 
-// Kind implements Node.Kind.
-func (n *FencedCodeBlock) Kind() NodeKind {
-	return KindFencedCodeBlock
-}
+func (n *FencedCodeBlock) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. FencedCodeBlock.Lines).
-func (n *FencedCodeBlock) Text(source []byte) []byte {
-	return n.Lines().Value(source)
-}
+func (n *FencedCodeBlock) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewFencedCodeBlock return a new FencedCodeBlock node.
-func NewFencedCodeBlock(info *Text) *FencedCodeBlock {
-	return &FencedCodeBlock{
-		BaseBlock: BaseBlock{},
-		Info:      info,
-	}
-}
+func NewFencedCodeBlock(info *Text) *FencedCodeBlock { _ = "STUB: not implemented"; return nil }
 
-// A Blockquote struct represents an blockquote block of Markdown text.
 type Blockquote struct {
 	BaseBlock
 }
 
-// Dump implements Node.Dump .
-func (n *Blockquote) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *Blockquote) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindBlockquote is a NodeKind of the Blockquote node.
 var KindBlockquote = NewNodeKind("Blockquote")
 
-// Kind implements Node.Kind.
-func (n *Blockquote) Kind() NodeKind {
-	return KindBlockquote
-}
+func (n *Blockquote) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewBlockquote returns a new Blockquote node.
-func NewBlockquote() *Blockquote {
-	return &Blockquote{
-		BaseBlock: BaseBlock{},
-	}
-}
+func NewBlockquote() *Blockquote { _ = "STUB: not implemented"; return nil }
 
-// A List struct represents a list of Markdown text.
 type List struct {
 	BaseBlock
 
-	// Marker is a marker character like '-', '+', ')' and '.'.
 	Marker byte
 
-	// IsTight is a true if this list is a 'tight' list.
-	// See https://spec.commonmark.org/0.30/#loose for details.
 	IsTight bool
 
-	// Start is an initial number of this ordered list.
-	// If this list is not an ordered list, Start is 0.
 	Start int
 }
 
-// IsOrdered returns true if this list is an ordered list, otherwise false.
-func (l *List) IsOrdered() bool {
-	return l.Marker == '.' || l.Marker == ')'
-}
+func (l *List) IsOrdered() bool { _ = "STUB: not implemented"; return false }
 
-// CanContinue returns true if this list can continue with
-// the given mark and a list type, otherwise false.
 func (l *List) CanContinue(marker byte, isOrdered bool) bool {
-	return marker == l.Marker && isOrdered == l.IsOrdered()
+	_ = "STUB: not implemented"
+	return false
 }
 
-// Dump implements Node.Dump.
-func (l *List) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Ordered": fmt.Sprintf("%v", l.IsOrdered()),
-		"Marker":  fmt.Sprintf("%c", l.Marker),
-		"Tight":   fmt.Sprintf("%v", l.IsTight),
-	}
-	if l.IsOrdered() {
-		m["Start"] = fmt.Sprintf("%d", l.Start)
-	}
-	DumpHelper(l, source, level, m, nil)
-}
+func (l *List) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindList is a NodeKind of the List node.
 var KindList = NewNodeKind("List")
 
-// Kind implements Node.Kind.
-func (l *List) Kind() NodeKind {
-	return KindList
-}
+func (l *List) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewList returns a new List node.
-func NewList(marker byte) *List {
-	return &List{
-		BaseBlock: BaseBlock{},
-		Marker:    marker,
-		IsTight:   true,
-	}
-}
+func NewList(marker byte) *List { _ = "STUB: not implemented"; return nil }
 
-// A ListItem struct represents a list item of Markdown text.
 type ListItem struct {
 	BaseBlock
 
-	// Offset is an offset position of this item.
 	Offset int
 }
 
-// Dump implements Node.Dump.
-func (n *ListItem) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Offset": fmt.Sprintf("%d", n.Offset),
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *ListItem) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindListItem is a NodeKind of the ListItem node.
 var KindListItem = NewNodeKind("ListItem")
 
-// Kind implements Node.Kind.
-func (n *ListItem) Kind() NodeKind {
-	return KindListItem
-}
+func (n *ListItem) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewListItem returns a new ListItem node.
-func NewListItem(offset int) *ListItem {
-	return &ListItem{
-		BaseBlock: BaseBlock{},
-		Offset:    offset,
-	}
-}
+func NewListItem(offset int) *ListItem { _ = "STUB: not implemented"; return nil }
 
-// HTMLBlockType represents kinds of an html blocks.
-// See https://spec.commonmark.org/0.30/#html-blocks
 type HTMLBlockType int
 
 const (
-	// HTMLBlockType1 represents type 1 html blocks.
 	HTMLBlockType1 HTMLBlockType = iota + 1
-	// HTMLBlockType2 represents type 2 html blocks.
+
 	HTMLBlockType2
-	// HTMLBlockType3 represents type 3 html blocks.
+
 	HTMLBlockType3
-	// HTMLBlockType4 represents type 4 html blocks.
+
 	HTMLBlockType4
-	// HTMLBlockType5 represents type 5 html blocks.
+
 	HTMLBlockType5
-	// HTMLBlockType6 represents type 6 html blocks.
+
 	HTMLBlockType6
-	// HTMLBlockType7 represents type 7 html blocks.
+
 	HTMLBlockType7
 )
 
-// An HTMLBlock struct represents an html block of Markdown text.
 type HTMLBlock struct {
 	BaseBlock
 
-	// Type is a type of this html block.
 	HTMLBlockType HTMLBlockType
 
-	// ClosureLine is a line that closes this html block.
 	ClosureLine textm.Segment
 }
 
-// IsRaw implements Node.IsRaw.
-func (n *HTMLBlock) IsRaw() bool {
-	return true
-}
+func (n *HTMLBlock) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// HasClosure returns true if this html block has a closure line,
-// otherwise false.
-func (n *HTMLBlock) HasClosure() bool {
-	return n.ClosureLine.Start >= 0
-}
+func (n *HTMLBlock) HasClosure() bool { _ = "STUB: not implemented"; return false }
 
-// Dump implements Node.Dump.
-func (n *HTMLBlock) Dump(source []byte, level int) {
-	indent := strings.Repeat("    ", level)
-	fmt.Printf("%s%s {\n", indent, "HTMLBlock")
-	indent2 := strings.Repeat("    ", level+1)
-	fmt.Printf("%sPos: %d\n", indent2, n.Pos())
-	fmt.Printf("%sRawText: \"", indent2)
-	for i := range n.Lines().Len() {
-		s := n.Lines().At(i)
-		fmt.Print(string(source[s.Start:s.Stop]))
-	}
-	fmt.Printf("\"\n")
-	for c := n.FirstChild(); c != nil; c = c.NextSibling() {
-		c.Dump(source, level+1)
-	}
-	if n.HasClosure() {
-		cl := n.ClosureLine
-		fmt.Printf("%sClosure: \"%s\"\n", indent2, string(cl.Value(source)))
-	}
-	fmt.Printf("%sHasBlankPreviousLines: %v\n", indent2, n.HasBlankPreviousLines())
-	fmt.Printf("%s}\n", indent)
-}
+func (n *HTMLBlock) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindHTMLBlock is a NodeKind of the HTMLBlock node.
 var KindHTMLBlock = NewNodeKind("HTMLBlock")
 
-// Kind implements Node.Kind.
-func (n *HTMLBlock) Kind() NodeKind {
-	return KindHTMLBlock
-}
+func (n *HTMLBlock) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. HTMLBlock.Lines).
-func (n *HTMLBlock) Text(source []byte) []byte {
-	ret := n.Lines().Value(source)
-	if n.HasClosure() {
-		ret = append(ret, n.ClosureLine.Value(source)...)
-	}
-	return ret
-}
+func (n *HTMLBlock) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewHTMLBlock returns a new HTMLBlock node.
-func NewHTMLBlock(typ HTMLBlockType) *HTMLBlock {
-	return &HTMLBlock{
-		BaseBlock:     BaseBlock{},
-		HTMLBlockType: typ,
-		ClosureLine:   textm.NewSegment(-1, -1),
-	}
-}
+func NewHTMLBlock(typ HTMLBlockType) *HTMLBlock { _ = "STUB: not implemented"; return nil }
 
-// A LinkReferenceDefinition struct represents a list of Markdown text.
 type LinkReferenceDefinition struct {
 	BaseBlock
 
-	// Label is a label of this link reference definition.
 	Label []byte
 
-	// Destination is a destination of this link reference definition.
 	Destination []byte
 
-	// Title is a title of this link reference definition.
 	Title []byte
 }
 
-// IsRaw implements Node.IsRaw.
-func (l *LinkReferenceDefinition) IsRaw() bool {
-	return true
-}
+func (l *LinkReferenceDefinition) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// Pos implements Node.Pos.
-func (l *LinkReferenceDefinition) Pos() int {
-	if l.lines.Len() == 0 {
-		return -1
-	}
-	return l.lines.At(0).Start
-}
+func (l *LinkReferenceDefinition) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// Dump implements Node.Dump.
-func (l *LinkReferenceDefinition) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Label":       string(l.Label),
-		"Destination": string(l.Destination),
-		"Title":       string(l.Title),
-	}
-	DumpHelper(l, source, level, m, nil)
-}
+func (l *LinkReferenceDefinition) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindLinkReferenceDefinition is a NodeKind of the LinkReferenceDefinition node.
 var KindLinkReferenceDefinition = NewNodeKind("LinkReferenceDefinition")
 
-// Kind implements Node.Kind.
-func (l *LinkReferenceDefinition) Kind() NodeKind {
-	return KindLinkReferenceDefinition
-}
+func (l *LinkReferenceDefinition) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewLinkReferenceDefinition returns a new LinkReferenceDefinition node.
 func NewLinkReferenceDefinition(label, destination, title []byte) *LinkReferenceDefinition {
-	return &LinkReferenceDefinition{
-		BaseBlock:   BaseBlock{},
-		Label:       label,
-		Destination: destination,
-		Title:       title,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

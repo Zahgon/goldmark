@@ -1,52 +1,28 @@
 package ast
 
 import (
-	"fmt"
-	"strings"
-
 	textm "github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
-// A BaseInline struct implements the Node interface partialliy.
 type BaseInline struct {
 	BaseNode
 }
 
-// Type implements Node.Type.
-func (b *BaseInline) Type() NodeType {
-	return TypeInline
-}
+func (b *BaseInline) Type() NodeType { _ = "STUB: not implemented"; return *new(NodeType) }
 
-// IsRaw implements Node.IsRaw.
-func (b *BaseInline) IsRaw() bool {
-	return false
-}
+func (b *BaseInline) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// HasBlankPreviousLines implements Node.HasBlankPreviousLines.
-func (b *BaseInline) HasBlankPreviousLines() bool {
-	panic("can not call with inline nodes.")
-}
+func (b *BaseInline) HasBlankPreviousLines() bool { _ = "STUB: not implemented"; return false }
 
-// SetBlankPreviousLines implements Node.SetBlankPreviousLines.
-func (b *BaseInline) SetBlankPreviousLines(v bool) {
-	panic("can not call with inline nodes.")
-}
+func (b *BaseInline) SetBlankPreviousLines(v bool) { _ = "STUB: not implemented"; return }
 
-// Lines implements Node.Lines.
-func (b *BaseInline) Lines() *textm.Segments {
-	panic("can not call with inline nodes.")
-}
+func (b *BaseInline) Lines() *textm.Segments { _ = "STUB: not implemented"; return nil }
 
-// SetLines implements Node.SetLines.
-func (b *BaseInline) SetLines(v *textm.Segments) {
-	panic("can not call with inline nodes.")
-}
+func (b *BaseInline) SetLines(v *textm.Segments) { _ = "STUB: not implemented"; return }
 
-// A Text struct represents a textual content of the Markdown text.
 type Text struct {
 	BaseInline
-	// Segment is a position in a source text.
+
 	Segment textm.Segment
 
 	flags uint8
@@ -59,179 +35,49 @@ const (
 	textCode
 )
 
-func textFlagsString(flags uint8) string {
-	buf := []string{}
-	if flags&textSoftLineBreak != 0 {
-		buf = append(buf, "SoftLineBreak")
-	}
-	if flags&textHardLineBreak != 0 {
-		buf = append(buf, "HardLineBreak")
-	}
-	if flags&textRaw != 0 {
-		buf = append(buf, "Raw")
-	}
-	if flags&textCode != 0 {
-		buf = append(buf, "Code")
-	}
-	return strings.Join(buf, ", ")
-}
+func textFlagsString(flags uint8) string { _ = "STUB: not implemented"; return "" }
 
-// Inline implements Inline.Inline.
-func (n *Text) Inline() {
-}
+func (n *Text) Inline() { _ = "STUB: not implemented"; return }
 
-// Pos implements Node.Pos.
-func (n *Text) Pos() int {
-	return n.Segment.Start
-}
+func (n *Text) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// SoftLineBreak returns true if this node ends with a new line,
-// otherwise false.
-func (n *Text) SoftLineBreak() bool {
-	return n.flags&textSoftLineBreak != 0
-}
+func (n *Text) SoftLineBreak() bool { _ = "STUB: not implemented"; return false }
 
-// SetSoftLineBreak sets whether this node ends with a new line.
-func (n *Text) SetSoftLineBreak(v bool) {
-	if v {
-		n.flags |= textSoftLineBreak
-	} else {
-		n.flags = n.flags &^ textSoftLineBreak
-	}
-}
+func (n *Text) SetSoftLineBreak(v bool) { _ = "STUB: not implemented"; return }
 
-// IsRaw returns true if this text should be rendered without unescaping
-// back slash escapes and resolving references.
-func (n *Text) IsRaw() bool {
-	return n.flags&textRaw != 0
-}
+func (n *Text) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// SetRaw sets whether this text should be rendered as raw contents.
-func (n *Text) SetRaw(v bool) {
-	if v {
-		n.flags |= textRaw
-	} else {
-		n.flags = n.flags &^ textRaw
-	}
-}
+func (n *Text) SetRaw(v bool) { _ = "STUB: not implemented"; return }
 
-// HardLineBreak returns true if this node ends with a hard line break.
-// See https://spec.commonmark.org/0.30/#hard-line-breaks for details.
-func (n *Text) HardLineBreak() bool {
-	return n.flags&textHardLineBreak != 0
-}
+func (n *Text) HardLineBreak() bool { _ = "STUB: not implemented"; return false }
 
-// SetHardLineBreak sets whether this node ends with a hard line break.
-func (n *Text) SetHardLineBreak(v bool) {
-	if v {
-		n.flags |= textHardLineBreak
-	} else {
-		n.flags = n.flags &^ textHardLineBreak
-	}
-}
+func (n *Text) SetHardLineBreak(v bool) { _ = "STUB: not implemented"; return }
 
-// Merge merges a Node n into this node.
-// Merge returns true if the given node has been merged, otherwise false.
-func (n *Text) Merge(node Node, source []byte) bool {
-	t, ok := node.(*Text)
-	if !ok {
-		return false
-	}
-	if n.Segment.Stop != t.Segment.Start || t.Segment.Padding != 0 ||
-		source[n.Segment.Stop-1] == '\n' || t.IsRaw() != n.IsRaw() {
-		return false
-	}
-	n.Segment.Stop = t.Segment.Stop
-	n.SetSoftLineBreak(t.SoftLineBreak())
-	n.SetHardLineBreak(t.HardLineBreak())
-	return true
-}
+func (n *Text) Merge(node Node, source []byte) bool { _ = "STUB: not implemented"; return false }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. Text.Value).
-func (n *Text) Text(source []byte) []byte {
-	return n.Segment.Value(source)
-}
+func (n *Text) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// Value returns a value of this node.
-// SoftLineBreaks are not included in the returned value.
-func (n *Text) Value(source []byte) []byte {
-	return n.Segment.Value(source)
-}
+func (n *Text) Value(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// Dump implements Node.Dump.
-func (n *Text) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Value": "\"" + strings.TrimRight(string(n.Value(source)), "\n") + "\"",
-	}
-	fs := textFlagsString(n.flags)
-	if len(fs) != 0 {
-		m["Flags"] = fs
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *Text) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindText is a NodeKind of the Text node.
 var KindText = NewNodeKind("Text")
 
-// Kind implements Node.Kind.
-func (n *Text) Kind() NodeKind {
-	return KindText
-}
+func (n *Text) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewText returns a new Text node.
-func NewText() *Text {
-	return &Text{
-		BaseInline: BaseInline{},
-	}
-}
+func NewText() *Text { _ = "STUB: not implemented"; return nil }
 
-// NewTextSegment returns a new Text node with the given source position.
-func NewTextSegment(v textm.Segment) *Text {
-	return &Text{
-		BaseInline: BaseInline{},
-		Segment:    v,
-	}
-}
+func NewTextSegment(v textm.Segment) *Text { _ = "STUB: not implemented"; return nil }
 
-// NewRawTextSegment returns a new Text node with the given source position.
-// The new node should be rendered as raw contents.
-func NewRawTextSegment(v textm.Segment) *Text {
-	t := &Text{
-		BaseInline: BaseInline{},
-		Segment:    v,
-	}
-	t.SetRaw(true)
-	return t
-}
+func NewRawTextSegment(v textm.Segment) *Text { _ = "STUB: not implemented"; return nil }
 
-// MergeOrAppendTextSegment merges a given s into the last child of the parent if
-// it can be merged, otherwise creates a new Text node and appends it to after current
-// last child.
-func MergeOrAppendTextSegment(parent Node, s textm.Segment) {
-	last := parent.LastChild()
-	t, ok := last.(*Text)
-	if ok && t.Segment.Stop == s.Start && !t.SoftLineBreak() {
-		t.Segment = t.Segment.WithStop(s.Stop)
-	} else {
-		parent.AppendChild(parent, NewTextSegment(s))
-	}
-}
+func MergeOrAppendTextSegment(parent Node, s textm.Segment) { _ = "STUB: not implemented"; return }
 
-// MergeOrReplaceTextSegment merges a given s into a previous sibling of the node n
-// if a previous sibling of the node n is *Text, otherwise replaces Node n with s.
 func MergeOrReplaceTextSegment(parent Node, n Node, s textm.Segment) {
-	prev := n.PreviousSibling()
-	if t, ok := prev.(*Text); ok && t.Segment.Stop == s.Start && !t.SoftLineBreak() {
-		t.Segment = t.Segment.WithStop(s.Stop)
-		parent.RemoveChild(parent, n)
-	} else {
-		parent.ReplaceChild(parent, n, NewTextSegment(s))
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-// A String struct is a textual content that has a concrete value.
 type String struct {
 	BaseInline
 
@@ -239,425 +85,164 @@ type String struct {
 	flags uint8
 }
 
-// Inline implements Inline.Inline.
-func (n *String) Inline() {
-}
+func (n *String) Inline() { _ = "STUB: not implemented"; return }
 
-// Pos implements Node.Pos.
-// String node does not have a position because it is not associated with a source text.
-func (n *String) Pos() int {
-	return -1
-}
+func (n *String) Pos() int { _ = "STUB: not implemented"; return 0 }
 
-// IsRaw returns true if this text should be rendered without unescaping
-// back slash escapes and resolving references.
-func (n *String) IsRaw() bool {
-	return n.flags&textRaw != 0
-}
+func (n *String) IsRaw() bool { _ = "STUB: not implemented"; return false }
 
-// SetRaw sets whether this text should be rendered as raw contents.
-func (n *String) SetRaw(v bool) {
-	if v {
-		n.flags |= textRaw
-	} else {
-		n.flags = n.flags &^ textRaw
-	}
-}
+func (n *String) SetRaw(v bool) { _ = "STUB: not implemented"; return }
 
-// IsCode returns true if this text should be rendered without any
-// modifications.
-func (n *String) IsCode() bool {
-	return n.flags&textCode != 0
-}
+func (n *String) IsCode() bool { _ = "STUB: not implemented"; return false }
 
-// SetCode sets whether this text should be rendered without any modifications.
-func (n *String) SetCode(v bool) {
-	if v {
-		n.flags |= textCode
-	} else {
-		n.flags = n.flags &^ textCode
-	}
-}
+func (n *String) SetCode(v bool) { _ = "STUB: not implemented"; return }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. String.Value).
-func (n *String) Text(source []byte) []byte {
-	return n.Value
-}
+func (n *String) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// Dump implements Node.Dump.
-func (n *String) Dump(source []byte, level int) {
-	fs := textFlagsString(n.flags)
-	if len(fs) != 0 {
-		fs = "(" + fs + ")"
-	}
-	fmt.Printf("%sString%s: \"%s\"\n", strings.Repeat("    ", level), fs, strings.TrimRight(string(n.Value), "\n"))
-}
+func (n *String) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindString is a NodeKind of the String node.
 var KindString = NewNodeKind("String")
 
-// Kind implements Node.Kind.
-func (n *String) Kind() NodeKind {
-	return KindString
-}
+func (n *String) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewString returns a new String node.
-func NewString(v []byte) *String {
-	return &String{
-		Value: v,
-	}
-}
+func NewString(v []byte) *String { _ = "STUB: not implemented"; return nil }
 
-// A CodeSpan struct represents a code span of Markdown text.
 type CodeSpan struct {
 	BaseInline
 }
 
-// Inline implements Inline.Inline .
-func (n *CodeSpan) Inline() {
-}
+func (n *CodeSpan) Inline() { _ = "STUB: not implemented"; return }
 
-// IsBlank returns true if this node consists of spaces, otherwise false.
-func (n *CodeSpan) IsBlank(source []byte) bool {
-	for c := n.FirstChild(); c != nil; c = c.NextSibling() {
-		text := c.(*Text).Segment
-		if !util.IsBlank(text.Value(source)) {
-			return false
-		}
-	}
-	return true
-}
+func (n *CodeSpan) IsBlank(source []byte) bool { _ = "STUB: not implemented"; return false }
 
-// Dump implements Node.Dump.
-func (n *CodeSpan) Dump(source []byte, level int) {
-	DumpHelper(n, source, level, nil, nil)
-}
+func (n *CodeSpan) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindCodeSpan is a NodeKind of the CodeSpan node.
 var KindCodeSpan = NewNodeKind("CodeSpan")
 
-// Kind implements Node.Kind.
-func (n *CodeSpan) Kind() NodeKind {
-	return KindCodeSpan
-}
+func (n *CodeSpan) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewCodeSpan returns a new CodeSpan node.
-func NewCodeSpan() *CodeSpan {
-	return &CodeSpan{
-		BaseInline: BaseInline{},
-	}
-}
+func NewCodeSpan() *CodeSpan { _ = "STUB: not implemented"; return nil }
 
-// An Emphasis struct represents an emphasis of Markdown text.
 type Emphasis struct {
 	BaseInline
 
-	// Level is a level of the emphasis.
 	Level int
 }
 
-// Dump implements Node.Dump.
-func (n *Emphasis) Dump(source []byte, level int) {
-	m := map[string]string{
-		"Level": fmt.Sprintf("%v", n.Level),
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *Emphasis) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindEmphasis is a NodeKind of the Emphasis node.
 var KindEmphasis = NewNodeKind("Emphasis")
 
-// Kind implements Node.Kind.
-func (n *Emphasis) Kind() NodeKind {
-	return KindEmphasis
-}
+func (n *Emphasis) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewEmphasis returns a new Emphasis node with the given level.
-func NewEmphasis(level int) *Emphasis {
-	return &Emphasis{
-		BaseInline: BaseInline{},
-		Level:      level,
-	}
-}
+func NewEmphasis(level int) *Emphasis { _ = "STUB: not implemented"; return nil }
 
 type baseLink struct {
 	BaseInline
 
-	// Destination is a destination(URL) of this link.
 	Destination []byte
 
-	// Title is a title of this link.
 	Title []byte
 
-	// Reference is a reference of this link. This field is used for reference links.
-	// If this link is not a reference link, this field is nil.
 	Reference *ReferenceLink
 }
 
-// Inline implements Inline.Inline.
-func (n *baseLink) Inline() {
-}
+func (n *baseLink) Inline() { _ = "STUB: not implemented"; return }
 
-// ReferenceLinkType defines a kind of reference link.
 type ReferenceLinkType int
 
 const (
-	// ReferenceLinkFull indicates that a reference link has a full reference like [foo][bar].
 	ReferenceLinkFull ReferenceLinkType = iota + 1
-	// ReferenceLinkCollapsed indicates that a reference link has a collapsed reference like [foo][].
+
 	ReferenceLinkCollapsed
-	// ReferenceLinkShortcut indicates that a reference link has a shortcut reference like [foo].
+
 	ReferenceLinkShortcut
 )
 
-// String returns a string representation of this reference link type.
-func (t ReferenceLinkType) String() string {
-	switch t {
-	case ReferenceLinkFull:
-		return "Full"
-	case ReferenceLinkCollapsed:
-		return "Collapsed"
-	case ReferenceLinkShortcut:
-		return "Shortcut"
-	default:
-		return fmt.Sprintf("Unknown(%d)", t)
-	}
-}
+func (t ReferenceLinkType) String() string { _ = "STUB: not implemented"; return "" }
 
-// ReferenceLink struct represents a reference link of the Markdown text.
 type ReferenceLink struct {
-	// Type is a kind of this reference link.
 	Type ReferenceLinkType
 
-	// Value is a value of this reference link.
 	Value []byte
 }
 
-// NewReferenceLink returns a new ReferenceLink with the given type and value.
 func NewReferenceLink(typ ReferenceLinkType, value []byte) *ReferenceLink {
-	return &ReferenceLink{
-		Type:  typ,
-		Value: value,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-// A Link struct represents a link of the Markdown text.
 type Link struct {
 	baseLink
 }
 
-// Dump implements Node.Dump.
-func (n *Link) Dump(source []byte, level int) {
-	m := map[string]string{}
-	m["Destination"] = string(n.Destination)
-	if len(n.Title) != 0 {
-		m["Title"] = string(n.Title)
-	}
-	cb := func(int) {}
-	if n.Reference != nil {
-		cb = func(level int) {
-			indent := strings.Repeat("    ", level)
-			fmt.Printf("%sReference {\n", indent)
-			indent2 := strings.Repeat("    ", level+1)
-			fmt.Printf("%sType : %s\n", indent2, n.Reference.Type.String())
-			fmt.Printf("%sValue : %s\n", indent2, string(n.Reference.Value))
-			fmt.Printf("%s}\n", indent)
+func (n *Link) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-		}
-	}
-	DumpHelper(n, source, level, m, cb)
-}
-
-// KindLink is a NodeKind of the Link node.
 var KindLink = NewNodeKind("Link")
 
-// Kind implements Node.Kind.
-func (n *Link) Kind() NodeKind {
-	return KindLink
-}
+func (n *Link) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewLink returns a new Link node.
-func NewLink() *Link {
-	c := &Link{
-		baseLink: baseLink{
-			BaseInline: BaseInline{},
-		},
-	}
-	return c
-}
+func NewLink() *Link { _ = "STUB: not implemented"; return nil }
 
-// An Image struct represents an image of the Markdown text.
 type Image struct {
 	baseLink
 }
 
-// Dump implements Node.Dump.
-func (n *Image) Dump(source []byte, level int) {
-	m := map[string]string{}
-	m["Destination"] = string(n.Destination)
-	if len(n.Title) != 0 {
-		m["Title"] = string(n.Title)
-	}
-	cb := func(int) {}
-	if n.Reference != nil {
-		cb = func(level int) {
-			indent := strings.Repeat("    ", level)
-			fmt.Printf("%sReference {\n", indent)
-			indent2 := strings.Repeat("    ", level+1)
-			fmt.Printf("%sType : %s\n", indent2, n.Reference.Type.String())
-			fmt.Printf("%sValue : %s\n", indent2, string(n.Reference.Value))
-			fmt.Printf("%s}\n", indent)
+func (n *Image) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-		}
-	}
-	DumpHelper(n, source, level, m, cb)
-}
-
-// KindImage is a NodeKind of the Image node.
 var KindImage = NewNodeKind("Image")
 
-// Kind implements Node.Kind.
-func (n *Image) Kind() NodeKind {
-	return KindImage
-}
+func (n *Image) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// NewImage returns a new Image node.
-func NewImage(link *Link) *Image {
-	c := &Image{
-		baseLink: baseLink{
-			BaseInline: BaseInline{},
-		},
-	}
-	c.Destination = link.Destination
-	c.Title = link.Title
-	c.Reference = link.Reference
-	for n := link.FirstChild(); n != nil; {
-		next := n.NextSibling()
-		link.RemoveChild(link, n)
-		c.AppendChild(c, n)
-		n = next
-	}
+func NewImage(link *Link) *Image { _ = "STUB: not implemented"; return nil }
 
-	return c
-}
-
-// AutoLinkType defines kind of auto links.
 type AutoLinkType int
 
 const (
-	// AutoLinkEmail indicates that an autolink is an email address.
 	AutoLinkEmail AutoLinkType = iota + 1
-	// AutoLinkURL indicates that an autolink is a generic URL.
+
 	AutoLinkURL
 )
 
-// An AutoLink struct represents an autolink of the Markdown text.
 type AutoLink struct {
 	BaseInline
-	// Type is a type of this autolink.
+
 	AutoLinkType AutoLinkType
 
-	// Protocol specified a protocol of the link.
 	Protocol []byte
 
 	value *Text
 }
 
-// Inline implements Inline.Inline.
-func (n *AutoLink) Inline() {}
+func (n *AutoLink) Inline() { _ = "STUB: not implemented"; return }
 
-// Dump implements Node.Dump.
-func (n *AutoLink) Dump(source []byte, level int) {
-	segment := n.value.Segment
-	m := map[string]string{
-		"Value": string(segment.Value(source)),
-	}
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *AutoLink) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindAutoLink is a NodeKind of the AutoLink node.
 var KindAutoLink = NewNodeKind("AutoLink")
 
-// Kind implements Node.Kind.
-func (n *AutoLink) Kind() NodeKind {
-	return KindAutoLink
-}
+func (n *AutoLink) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// URL returns an url of this node.
-func (n *AutoLink) URL(source []byte) []byte {
-	if n.Protocol != nil {
-		s := n.value.Segment
-		ret := make([]byte, 0, len(n.Protocol)+s.Len()+3)
-		ret = append(ret, n.Protocol...)
-		ret = append(ret, ':', '/', '/')
-		ret = append(ret, n.value.Value(source)...)
-		return ret
-	}
-	return n.value.Value(source)
-}
+func (n *AutoLink) URL(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// Label returns a label of this node.
-func (n *AutoLink) Label(source []byte) []byte {
-	return n.value.Value(source)
-}
+func (n *AutoLink) Label(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. AutoLink.Label).
-func (n *AutoLink) Text(source []byte) []byte {
-	return n.value.Value(source)
-}
+func (n *AutoLink) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewAutoLink returns a new AutoLink node.
-func NewAutoLink(typ AutoLinkType, value *Text) *AutoLink {
-	return &AutoLink{
-		BaseInline:   BaseInline{},
-		value:        value,
-		AutoLinkType: typ,
-	}
-}
+func NewAutoLink(typ AutoLinkType, value *Text) *AutoLink { _ = "STUB: not implemented"; return nil }
 
-// A RawHTML struct represents an inline raw HTML of the Markdown text.
 type RawHTML struct {
 	BaseInline
 	Segments *textm.Segments
 }
 
-// Inline implements Inline.Inline.
-func (n *RawHTML) Inline() {}
+func (n *RawHTML) Inline() { _ = "STUB: not implemented"; return }
 
-// Dump implements Node.Dump.
-func (n *RawHTML) Dump(source []byte, level int) {
-	m := map[string]string{}
-	t := []string{}
-	for i := range n.Segments.Len() {
-		segment := n.Segments.At(i)
-		t = append(t, string(segment.Value(source)))
-	}
-	m["RawText"] = strings.Join(t, "")
-	DumpHelper(n, source, level, m, nil)
-}
+func (n *RawHTML) Dump(source []byte, level int) { _ = "STUB: not implemented"; return }
 
-// KindRawHTML is a NodeKind of the RawHTML node.
 var KindRawHTML = NewNodeKind("RawHTML")
 
-// Kind implements Node.Kind.
-func (n *RawHTML) Kind() NodeKind {
-	return KindRawHTML
-}
+func (n *RawHTML) Kind() NodeKind { _ = "STUB: not implemented"; return *new(NodeKind) }
 
-// Text implements Node.Text.
-//
-// Deprecated: Use other properties of the node to get the text value(i.e. RawHTML.Segments).
-func (n *RawHTML) Text(source []byte) []byte {
-	return n.Segments.Value(source)
-}
+func (n *RawHTML) Text(source []byte) []byte { _ = "STUB: not implemented"; return nil }
 
-// NewRawHTML returns a new RawHTML node.
-func NewRawHTML() *RawHTML {
-	return &RawHTML{
-		Segments: textm.NewSegments(),
-	}
-}
+func NewRawHTML() *RawHTML { _ = "STUB: not implemented"; return nil }

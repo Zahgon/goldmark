@@ -36,10 +36,4 @@ subcommands:
 	}
 }
 
-func usage(u func(), err error) {
-	u()
-	if err != nil {
-		fmt.Fprint(os.Stderr, err)
-	}
-	os.Exit(1)
-}
+func usage(u func(), err error) { _ = "STUB: not implemented"; return }

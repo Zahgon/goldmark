@@ -1,11 +1,8 @@
 package parser
 
 import (
-	"bytes"
-
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
 type fencedCodeBlockParser struct {
@@ -13,11 +10,7 @@ type fencedCodeBlockParser struct {
 
 var defaultFencedCodeBlockParser = &fencedCodeBlockParser{}
 
-// NewFencedCodeBlockParser returns a new BlockParser that
-// parses fenced code blocks.
-func NewFencedCodeBlockParser() BlockParser {
-	return defaultFencedCodeBlockParser
-}
+func NewFencedCodeBlockParser() BlockParser { _ = "STUB: not implemented"; return *new(BlockParser) }
 
 type fenceData struct {
 	char   byte
@@ -28,85 +21,29 @@ type fenceData struct {
 
 var fencedCodeBlockInfoKey = NewContextKey()
 
-func (b *fencedCodeBlockParser) Trigger() []byte {
-	return []byte{'~', '`'}
-}
+func (b *fencedCodeBlockParser) Trigger() []byte { _ = "STUB: not implemented"; return nil }
 
 func (b *fencedCodeBlockParser) Open(parent ast.Node, reader text.Reader, pc Context) (ast.Node, State) {
-	line, segment := reader.PeekLine()
-	pos := pc.BlockOffset()
-	findent := pos
-	fenceChar := line[pos]
-	i := pos
-	for ; i < len(line) && line[i] == fenceChar; i++ {
-	}
-	oFenceLength := i - pos
-	if oFenceLength < 3 {
-		return nil, NoChildren
-	}
-	var info *ast.Text
-	if i < len(line)-1 {
-		rest := line[i:]
-		left := util.TrimLeftSpaceLength(rest)
-		right := util.TrimRightSpaceLength(rest)
-		if left < len(rest)-right {
-			infoStart, infoStop := segment.Start-segment.Padding+i+left, segment.Stop-right
-			value := rest[left : len(rest)-right]
-			if fenceChar == '`' && bytes.IndexByte(value, '`') > -1 {
-				return nil, NoChildren
-			} else if infoStart != infoStop {
-				info = ast.NewTextSegment(text.NewSegment(infoStart, infoStop))
-			}
-		}
-	}
-	node := ast.NewFencedCodeBlock(info)
-	pc.Set(fencedCodeBlockInfoKey, &fenceData{fenceChar, findent, oFenceLength, node})
-	return node, NoChildren
-
+	_ = "STUB: not implemented"
+	return *new(ast.Node), *new(State)
 }
 
 func (b *fencedCodeBlockParser) Continue(node ast.Node, reader text.Reader, pc Context) State {
-	line, segment := reader.PeekLine()
-	fdata := pc.Get(fencedCodeBlockInfoKey).(*fenceData)
-
-	w, pos := util.IndentWidth(line, reader.LineOffset())
-	if w < 4 {
-		i := pos
-		for ; i < len(line) && line[i] == fdata.char; i++ {
-		}
-		length := i - pos
-		if length >= fdata.length && util.IsBlank(line[i:]) {
-			reader.AdvanceToEOL()
-			return Close
-		}
-	}
-	pos, padding := util.IndentPositionPadding(line, reader.LineOffset(), segment.Padding, fdata.indent)
-	if pos < 0 {
-		pos = max(0, util.FirstNonSpacePosition(line)) - segment.Padding
-		padding = 0
-	}
-	seg := text.NewSegmentPadding(segment.Start+pos, segment.Stop, padding)
-	// if code block line starts with a tab, keep a tab as it is.
-	if padding != 0 {
-		preserveLeadingTabInCodeBlock(&seg, reader, fdata.indent)
-	}
-	seg.ForceNewline = true // EOF as newline
-	node.Lines().Append(seg)
-	reader.AdvanceToEOL()
-	return Continue | NoChildren
+	_ = "STUB: not implemented"
+	return *new(State)
 }
 
 func (b *fencedCodeBlockParser) Close(node ast.Node, reader text.Reader, pc Context) {
-	fdata := pc.Get(fencedCodeBlockInfoKey).(*fenceData)
-	if fdata.node == node {
-		pc.Set(fencedCodeBlockInfoKey, nil)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (b *fencedCodeBlockParser) CanInterruptParagraph() bool {
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (b *fencedCodeBlockParser) CanAcceptIndentedLine() bool {
+	_ = "STUB: not implemented"
 	return false
 }

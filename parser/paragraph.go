@@ -3,7 +3,6 @@ package parser
 import (
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
 type paragraphParser struct {
@@ -11,61 +10,25 @@ type paragraphParser struct {
 
 var defaultParagraphParser = &paragraphParser{}
 
-// NewParagraphParser returns a new BlockParser that
-// parses paragraphs.
-func NewParagraphParser() BlockParser {
-	return defaultParagraphParser
-}
+func NewParagraphParser() BlockParser { _ = "STUB: not implemented"; return *new(BlockParser) }
 
-func (b *paragraphParser) Trigger() []byte {
-	return nil
-}
+func (b *paragraphParser) Trigger() []byte { _ = "STUB: not implemented"; return nil }
 
 func (b *paragraphParser) Open(parent ast.Node, reader text.Reader, pc Context) (ast.Node, State) {
-	line, segment := reader.PeekLine()
-	if util.IsBlank(line) {
-		return nil, NoChildren
-	}
-	node := ast.NewParagraph()
-	node.Lines().Append(segment)
-	reader.AdvanceToEOL()
-	return node, NoChildren
+	_ = "STUB: not implemented"
+	return *new(ast.Node), *new(State)
 }
 
 func (b *paragraphParser) Continue(node ast.Node, reader text.Reader, pc Context) State {
-	line, segment := reader.PeekLine()
-	if util.IsBlank(line) {
-		return Close
-	}
-	node.Lines().Append(segment)
-	reader.AdvanceToEOL()
-	return Continue | NoChildren
+	_ = "STUB: not implemented"
+	return *new(State)
 }
 
 func (b *paragraphParser) Close(node ast.Node, reader text.Reader, pc Context) {
-	lines := node.Lines()
-	if lines.Len() != 0 {
-		// trim leading spaces
-		for i := range lines.Len() {
-			l := lines.At(i)
-			lines.Set(i, l.TrimLeftSpace(reader.Source()))
-		}
-
-		// trim trailing spaces
-		length := lines.Len()
-		lastLine := node.Lines().At(length - 1)
-		node.Lines().Set(length-1, lastLine.TrimRightSpace(reader.Source()))
-	}
-	if lines.Len() == 0 {
-		node.Parent().RemoveChild(node.Parent(), node)
-		return
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (b *paragraphParser) CanInterruptParagraph() bool {
-	return false
-}
+func (b *paragraphParser) CanInterruptParagraph() bool { _ = "STUB: not implemented"; return false }
 
-func (b *paragraphParser) CanAcceptIndentedLine() bool {
-	return false
-}
+func (b *paragraphParser) CanAcceptIndentedLine() bool { _ = "STUB: not implemented"; return false }

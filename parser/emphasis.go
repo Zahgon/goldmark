@@ -9,15 +9,18 @@ type emphasisDelimiterProcessor struct {
 }
 
 func (p *emphasisDelimiterProcessor) IsDelimiter(b byte) bool {
-	return b == '*' || b == '_'
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (p *emphasisDelimiterProcessor) CanOpenCloser(opener, closer *Delimiter) bool {
-	return opener.Char == closer.Char
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (p *emphasisDelimiterProcessor) OnMatch(consumes int) ast.Node {
-	return ast.NewEmphasis(consumes)
+	_ = "STUB: not implemented"
+	return *new(ast.Node)
 }
 
 var defaultEmphasisDelimiterProcessor = &emphasisDelimiterProcessor{}
@@ -27,24 +30,11 @@ type emphasisParser struct {
 
 var defaultEmphasisParser = &emphasisParser{}
 
-// NewEmphasisParser return a new InlineParser that parses emphasises.
-func NewEmphasisParser() InlineParser {
-	return defaultEmphasisParser
-}
+func NewEmphasisParser() InlineParser { _ = "STUB: not implemented"; return *new(InlineParser) }
 
-func (s *emphasisParser) Trigger() []byte {
-	return []byte{'*', '_'}
-}
+func (s *emphasisParser) Trigger() []byte { _ = "STUB: not implemented"; return nil }
 
 func (s *emphasisParser) Parse(parent ast.Node, block text.Reader, pc Context) ast.Node {
-	before := block.PrecendingCharacter()
-	line, segment := block.PeekLine()
-	node := ScanDelimiter(line, before, 1, defaultEmphasisDelimiterProcessor)
-	if node == nil {
-		return nil
-	}
-	node.Segment = segment.WithStop(segment.Start + node.OriginalLength)
-	block.Advance(node.OriginalLength)
-	pc.PushDelimiter(node)
-	return node
+	_ = "STUB: not implemented"
+	return *new(ast.Node)
 }

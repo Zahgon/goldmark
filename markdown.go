@@ -1,4 +1,3 @@
-// Package goldmark implements functions to convert markdown text to a desired format.
 package goldmark
 
 import (
@@ -6,88 +5,47 @@ import (
 
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
-	"github.com/yuin/goldmark/renderer/html"
-	"github.com/yuin/goldmark/text"
-	"github.com/yuin/goldmark/util"
 )
 
-// DefaultParser returns a new Parser that is configured by default values.
-func DefaultParser() parser.Parser {
-	return parser.NewParser(parser.WithBlockParsers(parser.DefaultBlockParsers()...),
-		parser.WithInlineParsers(parser.DefaultInlineParsers()...),
-		parser.WithParagraphTransformers(parser.DefaultParagraphTransformers()...),
-	)
-}
+func DefaultParser() parser.Parser { _ = "STUB: not implemented"; return *new(parser.Parser) }
 
-// DefaultRenderer returns a new Renderer that is configured by default values.
-func DefaultRenderer() renderer.Renderer {
-	return renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(html.NewRenderer(), 1000)))
-}
+func DefaultRenderer() renderer.Renderer { _ = "STUB: not implemented"; return *new(renderer.Renderer) }
 
 var defaultMarkdown = New()
 
-// Convert interprets a UTF-8 bytes source in Markdown and
-// write rendered contents to a writer w.
 func Convert(source []byte, w io.Writer, opts ...parser.ParseOption) error {
-	return defaultMarkdown.Convert(source, w, opts...)
+	_ = "STUB: not implemented"
+	return nil
 }
 
-// A Markdown interface offers functions to convert Markdown text to
-// a desired format.
 type Markdown interface {
-	// Convert interprets a UTF-8 bytes source in Markdown and write rendered
-	// contents to a writer w.
 	Convert(source []byte, writer io.Writer, opts ...parser.ParseOption) error
 
-	// Parser returns a Parser that will be used for conversion.
 	Parser() parser.Parser
 
-	// SetParser sets a Parser to this object.
 	SetParser(parser.Parser)
 
-	// Renderer returns a Renderer that will be used for conversion.
 	Renderer() renderer.Renderer
 
-	// SetRenderer sets a Renderer to this object.
 	SetRenderer(renderer.Renderer)
 }
 
-// Option is a functional option type for Markdown objects.
 type Option func(*markdown)
 
-// WithExtensions adds extensions.
-func WithExtensions(ext ...Extender) Option {
-	return func(m *markdown) {
-		m.extensions = append(m.extensions, ext...)
-	}
-}
+func WithExtensions(ext ...Extender) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-// WithParser allows you to override the default parser.
-func WithParser(p parser.Parser) Option {
-	return func(m *markdown) {
-		m.parser = p
-	}
-}
+func WithParser(p parser.Parser) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-// WithParserOptions applies options for the parser.
 func WithParserOptions(opts ...parser.Option) Option {
-	return func(m *markdown) {
-		m.parser.AddOptions(opts...)
-	}
+	_ = "STUB: not implemented"
+	return *new(Option)
 }
 
-// WithRenderer allows you to override the default renderer.
-func WithRenderer(r renderer.Renderer) Option {
-	return func(m *markdown) {
-		m.renderer = r
-	}
-}
+func WithRenderer(r renderer.Renderer) Option { _ = "STUB: not implemented"; return *new(Option) }
 
-// WithRendererOptions applies options for the renderer.
 func WithRendererOptions(opts ...renderer.Option) Option {
-	return func(m *markdown) {
-		m.renderer.AddOptions(opts...)
-	}
+	_ = "STUB: not implemented"
+	return *new(Option)
 }
 
 type markdown struct {
@@ -96,46 +54,24 @@ type markdown struct {
 	extensions []Extender
 }
 
-// New returns a new Markdown with given options.
-func New(options ...Option) Markdown {
-	md := &markdown{
-		parser:     DefaultParser(),
-		renderer:   DefaultRenderer(),
-		extensions: []Extender{},
-	}
-	for _, opt := range options {
-		opt(md)
-	}
-	for _, e := range md.extensions {
-		e.Extend(md)
-	}
-	return md
-}
+func New(options ...Option) Markdown { _ = "STUB: not implemented"; return *new(Markdown) }
 
 func (m *markdown) Convert(source []byte, writer io.Writer, opts ...parser.ParseOption) error {
-	reader := text.NewReader(source)
-	doc := m.parser.Parse(reader, opts...)
-	return m.renderer.Render(writer, source, doc)
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (m *markdown) Parser() parser.Parser {
-	return m.parser
-}
+func (m *markdown) Parser() parser.Parser { _ = "STUB: not implemented"; return *new(parser.Parser) }
 
-func (m *markdown) SetParser(v parser.Parser) {
-	m.parser = v
-}
+func (m *markdown) SetParser(v parser.Parser) { _ = "STUB: not implemented"; return }
 
 func (m *markdown) Renderer() renderer.Renderer {
-	return m.renderer
+	_ = "STUB: not implemented"
+	return *new(renderer.Renderer)
 }
 
-func (m *markdown) SetRenderer(v renderer.Renderer) {
-	m.renderer = v
-}
+func (m *markdown) SetRenderer(v renderer.Renderer) { _ = "STUB: not implemented"; return }
 
-// An Extender interface is used for extending Markdown.
 type Extender interface {
-	// Extend extends the Markdown.
 	Extend(Markdown)
 }
